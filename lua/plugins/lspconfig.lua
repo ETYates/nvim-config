@@ -1,0 +1,95 @@
+local Plugin = { 'neovim/nvim-lspconfig' }
+local user = {}
+
+Plugin.dependencies = {
+    { 'williamboman/mason-lspconfig.nvim' },
+    { 'hrsh7th/cmp-nvim-lsp' },
+}
+
+Plugin.cmd = { 'LspInfo', 'LspInstall', 'LspUnInstall' }
+
+Plugin.event = { 'BufReadPre', 'BufNewFile' }
+
+function Plugin.init()
+  -- See :help vim.diagnostic.config()
+  vim.diagnostic.config({
+    virtual_text = true,
+    severity_sort = true,
+    float = {
+      border = 'rounded',
+      source = true,
+    },
+    signs = {
+      text = {
+      [vim.diagnostic.severity.ERROR] = '✘',
+      [vim.diagnostic.severity.WARN] = '▲',
+      [vim.diagnostic.severity.INFO] = '»',
+      [vim.diagnostic.severity.HINT] = '⚑',
+    },
+      numhl = {
+        [vim.diagnostic.severity.ERROR] = '',
+        [vim.diagnostic.severity.WARN] = '',
+        [vim.diagnostic.severity.INFO] = '',
+        [vim.diagnostic.severity.HINT] = '',
+      },
+    },
+  })
+end
+
+function Plugin.config()
+  local lspconfig = require('lspconfig')
+  local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+  local group = vim.api.nvim_create_augroup('lsp_cmds', { clear = true })
+
+  vim.api.nvim_create_autocmd('LspAttach', {
+    group = group,
+    desc = 'Lsp actions',
+    callback = user.on_attach
+  })
+
+  require('mason-lspconfig').setup({
+    ensure_installed = { 'lua_ls', 'rust_analyzer', 'clangd', 'pyright' },
+    handlers = {
+      function(server)
+        lspconfig[server].setup({
+          capabilities = lsp_capabilities,
+        })
+     end,
+     ['lua_ls'] = function()
+       require('plugins.lsp.lua_ls')
+     end,
+     ['clangd'] = function()
+       require('plugins.lsp.clangd')
+     end
+    }
+  })
+end
+
+function user.on_attach(event)
+  local bufmap = function(mode, lhs, rhs)
+    local opts = {buffer = event.buf}
+    vim.keymap.set(mode, lhs, rhs, opts)
+  end
+
+  -- You can search each function in the help page.
+  -- For example :help vim.lsp.buf.hover()
+
+  bufmap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>')
+  bufmap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>')
+  bufmap('n', '<Leader>d', '<cmd>tab split | lua vim.lsp.buf.definition()<cr>')
+  bufmap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>')
+  bufmap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>')
+  bufmap('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>')
+  bufmap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>')
+  bufmap('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>')
+  bufmap('n', '<F2>', '<cmd>lua vim.lsp.buf.rename()<cr>')
+  bufmap({'n', 'x'}, '<F3>', '<cmd>lua vim.lsp.buf.format({async = true})<cr>')
+  bufmap('n', '<F4>', '<cmd>lua vim.lsp.buf.code_action()<cr>')
+  bufmap('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>')
+  bufmap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<cr>')
+  bufmap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<cr>')
+end
+
+return Plugin
+
