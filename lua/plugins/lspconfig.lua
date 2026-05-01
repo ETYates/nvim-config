@@ -49,7 +49,7 @@ function Plugin.config()
   })
 
   require('mason-lspconfig').setup({
-    ensure_installed = { 'lua_ls', 'rust_analyzer', 'clangd', 'pyright', 'ts_ls' },
+    ensure_installed = { 'lua_ls', 'rust_analyzer', 'clangd', 'pyright', 'ts_ls', 'html' },
     handlers = {
       function(server)
         lspconfig[server].setup({

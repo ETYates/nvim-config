@@ -7,7 +7,6 @@ return {
         require('mini.cursorword').setup({
             delay = 0,
         })
-        require("mini.pairs").setup()
         local statusline = require 'mini.statusline'
         statusline.setup()
 
