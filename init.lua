@@ -48,6 +48,13 @@ cmp.event:on(
   cmp_autopairs.on_confirm_done()
 )
 
+cmp.setup.filetype({ "sql" }, {
+    sources = {
+        { name = "vim-dadbod-completion" },
+        { name = "buffer" },
+    },
+})
+
 vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>')
 vim.keymap.set('n', '<C-/>', ':noh<CR>')
 
@@ -59,7 +66,6 @@ vim.o.winborder = 'rounded'
 
 vim.opt.cursorline = true
 vim.opt.guicursor = "a:block"
-vim.opt.mouse = ""
 
 vim.cmd.colorscheme "nord"
 vim.wo.number = true

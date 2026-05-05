@@ -36,7 +36,8 @@ return {
                 "vimdoc",
                 "yaml",
                 "ruby",
-		"zsh"
+                "sql",
+                "zsh"
             },
         },
         config = function(_, opts)
