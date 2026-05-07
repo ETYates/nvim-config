@@ -69,6 +69,11 @@ return {
                         return
                     end
 
+                    -- Skip latex 
+                    if filetype == "tex" then
+                        return
+                    end
+
                     -- Check if this filetype us already handled by explicit opts.ensure_installed config
                     for _, filetypes in pairs(opts.ensure_installed) do
                         local ft_table = type(filetypes) == "table" and filetyes or { filetypes }

@@ -32,7 +32,6 @@ cmp.setup.filetype({ "sql" }, {
     },
 })
 
-
 vim.keymap.set('n', '<C-n>', ':NvimTreeToggle<CR>')
 vim.keymap.set('n', '<C-/>', ':noh<CR>')
 
