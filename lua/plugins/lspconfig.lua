@@ -21,11 +21,11 @@ function Plugin.init()
     },
     signs = {
       text = {
-      [vim.diagnostic.severity.ERROR] = '󰅚',
-      [vim.diagnostic.severity.WARN] = '󰀪',
-      [vim.diagnostic.severity.INFO] = '»',
-      [vim.diagnostic.severity.HINT] = '󰌶',
-    },
+        [vim.diagnostic.severity.ERROR] = '󰅚',
+        [vim.diagnostic.severity.WARN] = '󰀪',
+        [vim.diagnostic.severity.INFO] = '»',
+        [vim.diagnostic.severity.HINT] = '󰌶',
+      },
       numhl = {
         [vim.diagnostic.severity.ERROR] = '',
         [vim.diagnostic.severity.WARN] = '',
@@ -49,7 +49,18 @@ function Plugin.config()
   })
 
   require('mason-lspconfig').setup({
-    ensure_installed = { 'lua_ls', 'rust_analyzer', 'clangd', 'pyright', 'ts_ls', 'texlab' },
+    ensure_installed = {
+        'lua_ls',
+        'rust_analyzer',
+        'clangd',
+        'pyright',
+        'ts_ls',
+        'texlab',
+        'bashls',
+        'jsonls',
+        'html',
+        'cssls'
+    },
     handlers = {
       function(server)
         lspconfig[server].setup({
