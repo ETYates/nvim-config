@@ -19,6 +19,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.g.gitblame_display_virtual_text = 0 -- Disable virtual text
 local git_blame = require('gitblame')
 
+-- Set lualine to have git-blame information.
 require('lualine').setup({
   sections = {
     lualine_c = {
