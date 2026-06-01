@@ -57,6 +57,7 @@ vim.o.winborder = 'rounded'
 
 vim.opt.cursorline = true
 vim.opt.guicursor = "a:block"
+vim.opt.mouse = ""
 
 vim.cmd.colorscheme "nord"
 vim.wo.number = true
